@@ -8,21 +8,21 @@ type SpotlightProps = {
   gradientFirst?: string;
   gradientSecond?: string;
   gradientThird?: string;
-  translateY?: number;
-  width?: number;
-  height?: number;
-  smallWidth?: number;
+  translateY?: number | string;
+  width?: number | string;
+  height?: number | string;
+  smallWidth?: number | string;
   duration?: number;
-  xOffset?: number;
+  xOffset?: number | string;
 };
 
 export const Spotlight = ({
-  translateY = -350,
-  width = 560,
-  height = 1880,
-  smallWidth = 240,
+  translateY = "-20vh",
+  width = "140vw",
+  height = "120vh",
+  smallWidth = "60vw",
   duration = 15,
-  xOffset = 999,
+  xOffset = "50vw",
   gradientFirst,
   gradientSecond,
   gradientThird,
@@ -30,61 +30,32 @@ export const Spotlight = ({
   const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
+  useEffect(() => setMounted(true), []);
   if (!mounted) return null;
 
   const isDarkMode = theme === "dark";
 
-  const darkGradients = {
+  const gradients = {
     first:
       gradientFirst ??
-      "radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(210, 100%, 85%, 0.25) 0, hsla(210, 100%, 55%, 0.1) 50%, hsla(210, 100%, 45%, 0) 80%)",
+      (isDarkMode
+        ? "radial-gradient(68% 68% at 55% 31%, hsla(210, 100%, 85%, 0.25) 0, hsla(210,100%,55%,0.1) 50%, transparent 80%)"
+        : "radial-gradient(68% 68% at 55% 31%, rgba(0,0,0,0.15) 0, rgba(0,0,0,0.05) 50%, transparent 80%)"),
     second:
       gradientSecond ??
-      "radial-gradient(50% 50% at 50% 50%, hsla(210, 100%, 85%, 0.2) 0, hsla(210, 100%, 55%, 0.08) 80%, transparent 100%)",
+      (isDarkMode
+        ? "radial-gradient(50% 50% at 50% 50%, hsla(210,100%,85%,0.2) 0, hsla(210,100%,55%,0.08) 80%, transparent 100%)"
+        : "radial-gradient(50% 50% at 50% 50%, rgba(0,0,0,0.12) 0, rgba(0,0,0,0.05) 80%, transparent 100%)"),
     third:
       gradientThird ??
-      "radial-gradient(50% 50% at 50% 50%, hsla(210, 100%, 85%, 0.15) 0, hsla(210, 100%, 45%, 0.05) 80%, transparent 100%)",
+      (isDarkMode
+        ? "radial-gradient(50% 50% at 50% 50%, hsla(210,100%,85%,0.15) 0, hsla(210,100%,45%,0.05) 80%, transparent 100%)"
+        : "radial-gradient(50% 50% at 50% 50%, rgba(0,0,0,0.08) 0, rgba(0,0,0,0.03) 80%, transparent 100%)"),
   };
-
-  const lightGradients = {
-    first:
-      gradientFirst ??
-      "radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(0, 0%, 0%, 0.15) 0, hsla(0, 0%, 0%, 0.05) 50%, hsla(0, 0%, 0%, 0) 80%)",
-    second:
-      gradientSecond ??
-      "radial-gradient(50% 50% at 50% 50%, hsla(0, 0%, 0%, 0.12) 0, hsla(0, 0%, 0%, 0.05) 80%, transparent 100%)",
-    third:
-      gradientThird ??
-      "radial-gradient(50% 50% at 50% 50%, hsla(0, 0%, 0%, 0.08) 0, hsla(0, 0%, 0%, 0.03) 80%, transparent 100%)",
-  };
-
-  const gradients = theme
-    ? isDarkMode
-      ? darkGradients
-      : lightGradients
-    : lightGradients;
-
-  const backgroundImage = isDarkMode
-    ? "/images/darkMode/skull.jpg"
-    : "/images/lightMode/front.jpg";
 
   return (
     <AnimatePresence mode="wait">
-      <motion.div
-        key={backgroundImage}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="pointer-events-none absolute inset-0 h-full w-full bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${backgroundImage})` }}
-      >
-        <div className="absolute inset-0 bg-black/10 transition-colors duration-500" />
-
+      <motion.div className="pointer-events-none fixed inset-0 h-full w-full z-0">
         {/* BLOQUE IZQUIERDO */}
         <motion.div
           animate={{ x: [0, xOffset, 0] }}
@@ -94,12 +65,12 @@ export const Spotlight = ({
             repeatType: "reverse",
             ease: "easeInOut",
           }}
-          className="absolute top-0 left-0 w-screen h-screen z-40 pointer-events-none"
+          className="absolute top-0 left-0 w-screen h-screen pointer-events-none"
         >
           <div
             className="absolute top-0 left-0 transition-[background] duration-1000 ease-in-out"
             style={{
-              transform: `translateY(${translateY}px) rotate(-45deg)`,
+              transform: `translateY(${translateY}) rotate(-45deg)`,
               width,
               height,
               background: gradients.first,
@@ -127,19 +98,19 @@ export const Spotlight = ({
 
         {/* BLOQUE DERECHO */}
         <motion.div
-          animate={{ x: [0, -xOffset, 0] }}
+          animate={{ x: [0, `-${xOffset}`, 0] }}
           transition={{
             duration,
             repeat: Infinity,
             repeatType: "reverse",
             ease: "easeInOut",
           }}
-          className="absolute top-0 right-0 w-screen h-screen z-40 pointer-events-none"
+          className="absolute top-0 right-0 w-screen h-screen pointer-events-none"
         >
           <div
             className="absolute top-0 right-0 transition-[background] duration-1000 ease-in-out"
             style={{
-              transform: `translateY(${translateY}px) rotate(45deg)`,
+              transform: `translateY(${translateY}) rotate(45deg)`,
               width,
               height,
               background: gradients.first,

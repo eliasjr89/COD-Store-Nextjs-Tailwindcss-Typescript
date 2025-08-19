@@ -21,20 +21,30 @@ export default function Home() {
         <div className="mt-4 min-h-[1.5rem]">
           {showParagraph && (
             <motion.p
-              className="text-lg text-gray-500 dark:text-gray-400 "
+              className="text-xl font-medium text-gray-700 dark:text-gray-200"
+              style={{ textShadow: "0 1px 3px rgba(0,0,0,0.3)" }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, ease: [0.42, 0, 0.58, 1] }}
+              transition={{ duration: 0.6, ease: [0.42, 0, 0.58, 1] }}
             >
               {t("subtitle")}
             </motion.p>
           )}
         </div>
 
-        <div className="mt-4 flex flex-col sm:flex-row justify-center gap-4">
+        {/* Aquí reemplazamos el div de botones por motion.div */}
+        <motion.div
+          className="mt-4 flex flex-col sm:flex-row justify-center gap-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{
+            opacity: showParagraph ? 1 : 0,
+            y: showParagraph ? 0 : 20,
+          }}
+          transition={{ duration: 0.6, ease: [0.42, 0, 0.58, 1], delay: 0.2 }}
+        >
           <GlassButton href="/login" label={t("login")} />
           <GlassButton href="/register" label={t("register")} />
-        </div>
+        </motion.div>
       </div>
     </div>
   );

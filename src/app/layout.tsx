@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { Providers } from "@/components/ui/Providers";
 import Navbar from "@/components/ui/Navbar";
 import { Spotlight } from "@/components/ui/Spotlight";
+import { ThemeBackground } from "@/components/ui/ThemeBackground";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -15,6 +16,7 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans overflow-hidden`}>
         <Providers>
+          <ThemeBackground />
           <Navbar />
           <Spotlight />
           {children}
