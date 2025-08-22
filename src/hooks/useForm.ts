@@ -20,11 +20,12 @@ export function useForm<T>(initial: T) {
     try {
       await callback(values);
       setSubmitted(true);
-    } catch (err: any) {
-      if (err?.fieldErrors) setErrors(err.fieldErrors);
-      else console.error(err);
-    } finally {
-      setLoading(false);
+    } catch (err: unknown) {
+      if (typeof err === "object" && err !== null && "fieldErrors" in err) {
+        setErrors((err as { fieldErrors: FieldErrors<T> }).fieldErrors);
+      } else {
+        console.error(err);
+      }
     }
   };
 

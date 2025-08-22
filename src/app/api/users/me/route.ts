@@ -2,6 +2,11 @@ import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { prisma } from "@/lib/prisma";
 
+interface TokenPayload {
+  id: string;
+  email: string;
+}
+
 export async function GET(req: Request) {
   // Recibimos el header de la petición
   const authHeader = req.headers.get("Authorization");
@@ -15,10 +20,10 @@ export async function GET(req: Request) {
   const token = authHeader.split(" ")[1];
 
   // Validamos el token
-  let payload: any;
+  let payload: TokenPayload;
   try {
-    payload = jwt.verify(token, process.env.JWT_SECRET!);
-  } catch (err) {
+    payload = jwt.verify(token, process.env.JWT_SECRET!) as TokenPayload;
+  } catch (error) {
     return NextResponse.json({ error: "Token inválido" }, { status: 401 });
   }
 
