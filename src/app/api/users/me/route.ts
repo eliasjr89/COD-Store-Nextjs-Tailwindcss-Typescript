@@ -47,8 +47,7 @@ export async function GET(req: Request) {
 
     // Devolvemos los datos del usuario autenticado
     return NextResponse.json({ user }, { status: 200 });
-  } catch (error) {
-    console.log("GET /api/users/me error:", error);
+  } catch {
     return NextResponse.json(
       { error: "Error al obtener usuario" },
       { status: 500 }

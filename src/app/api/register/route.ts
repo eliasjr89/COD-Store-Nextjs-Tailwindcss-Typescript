@@ -67,8 +67,7 @@ export async function POST(req: Request) {
       { message: "Usuario creado con éxito", user },
       { status: 201 }
     );
-  } catch (error) {
-    console.error("Register error:", error);
+  } catch {
     return NextResponse.json(
       { error: "Error interno del servidor" },
       { status: 500 }
