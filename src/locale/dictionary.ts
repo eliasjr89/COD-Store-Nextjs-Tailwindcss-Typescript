@@ -16,7 +16,7 @@ export const dictionary = {
     alreadyAccount: "¿Ya tienes cuenta?",
     forgotPassword: "¿Has olvidado tu contraseña?",
     email: "Correo electrónico",
-    sendResetLink: "Enviar enlace de restablecimiento",
+    sendResetLink: "Enviar enlace",
     rememberPassword: "¿Recordaste tu contraseña?",
     usernameError: "El usuario debe tener al menos 3 caracteres",
     passwordError: "La contraseña debe tener al menos 6 caracteres",
@@ -25,8 +25,10 @@ export const dictionary = {
     resetEmailSent: "Se ha enviado un enlace de restablecimiento a tu correo",
     loading: "Cargando...",
     invalidCredentials: "Usuario o contraseña inválidos",
-    validationErrorsTitle: "Errores de validación", // nueva clave
+    validationErrorsTitle: "Errores de validación",
     close: "Cerrar", // nueva clave
+    loginSuccess: "Has iniciado sesión correctamente",
+    registerSuccess: "¡Registro completado con éxito!",
   },
   EN: {
     welcome: "Welcome to Call Of Duty",
@@ -44,7 +46,7 @@ export const dictionary = {
     alreadyAccount: "Already have an account?",
     forgotPassword: "Forgot your password?",
     email: "Email",
-    sendResetLink: "Send reset link",
+    sendResetLink: "Send link",
     rememberPassword: "Remembered your password?",
     usernameError: "Username must be at least 3 characters",
     passwordError: "Password must be at least 6 characters",
@@ -55,5 +57,7 @@ export const dictionary = {
     invalidCredentials: "Invalid username or password",
     validationErrorsTitle: "Validation Errors",
     close: "Close",
+    loginSuccess: "You have successfully logged in",
+    registerSuccess: "Registration completed successfully!",
   },
 };

@@ -14,7 +14,7 @@ export default function Home() {
     <div className="relative min-h-screen flex items-start justify-center pt-60 overflow-hidden font-sans">
       <div className="relative z-10 text-center">
         <MagneticText
-          text={t("welcome")}
+          text={t.welcome}
           onComplete={() => setShowParagraph(true)}
         />
 
@@ -27,7 +27,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.42, 0, 0.58, 1] }}
             >
-              {t("subtitle")}
+              {t.subtitle}
             </motion.p>
           )}
         </div>
@@ -42,8 +42,8 @@ export default function Home() {
           }}
           transition={{ duration: 0.6, ease: [0.42, 0, 0.58, 1], delay: 0.2 }}
         >
-          <GlassButton href="/login" label={t("login")} />
-          <GlassButton href="/register" label={t("register")} />
+          <GlassButton href="/login" label={t.login} />
+          <GlassButton href="/register" label={t.register} />
         </motion.div>
       </div>
     </div>

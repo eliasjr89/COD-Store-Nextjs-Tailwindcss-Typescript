@@ -1,103 +1,101 @@
 "use client";
 
-import { useState } from "react";
+import AuthCard from "@/components/ui/AuthCard";
+import AuthInput from "@/components/ui/AuthInput";
 import GlassButton from "@/components/ui/Buttons";
-import { useLanguage } from "@/context/LanguageContext";
-import { dictionary } from "@/locale/dictionary";
 import Link from "next/link";
-import ValidationModal from "@/components/ui/ValidationModal"; // Asegúrate de que exista
+import { useForm } from "@/hooks/useForm";
+import { dictionary } from "@/locale/dictionary";
+import { useLanguage } from "@/context/LanguageContext";
 
-export default function RegisterForm() {
+export default function Register() {
   const { language } = useLanguage();
   const t = dictionary[language];
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [validationErrors, setValidationErrors] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
+  const { values, handleChange, errors, loading, submitted, handleSubmit } =
+    useForm({ username: "", email: "", password: "", confirmPassword: "" });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setValidationErrors([]);
+  const submit = async () => {
+    const fieldErrors: Record<string, string> = {};
+    if (!values.username) fieldErrors.username = t.usernameError;
+    if (!values.email) fieldErrors.email = t.emailError;
+    if (!values.password) fieldErrors.password = t.passwordError;
+    if (values.password !== values.confirmPassword)
+      fieldErrors.confirmPassword = t.confirmPasswordError;
 
-    const errors: string[] = [];
+    if (Object.keys(fieldErrors).length > 0) throw { fieldErrors };
 
-    // Validaciones
-    if (!username || username.length < 3) errors.push(t.usernameError);
-    if (!password || password.length < 6) errors.push(t.passwordError);
-    if (password !== confirmPassword) errors.push(t.confirmPasswordError);
+    const res = await fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
 
-    if (errors.length > 0) {
-      setValidationErrors(errors);
-      return;
-    }
+    const data = await res.json();
 
-    setLoading(true);
+    if (!res.ok) throw { fieldErrors: { general: data.error } };
 
-    // Simulación de registro (aquí iría tu API real)
-    await new Promise((res) => setTimeout(res, 1000));
-
-    console.log("Registro correcto:", { username, password });
-    setLoading(false);
-    alert("Registro correcto!"); // Aquí redirigirías a login o dashboard
+    return data;
   };
 
   return (
-    <div className="flex flex-col items-center justify-start pt-50 sm:pt-50 min-h-screen px-4 sm:px-6">
-      <ValidationModal
-        errors={validationErrors}
-        onClose={() => setValidationErrors([])}
-      />
-
-      <div className="w-full max-w-sm sm:max-w-md p-6 sm:p-8 rounded-xl bg-white/10 dark:bg-black/10 backdrop-blur-md border border-black/20 dark:border-white/20 shadow-lg relative z-10">
-        <h1 className="text-2xl sm:text-3xl font-light mb-6 text-black dark:text-white text-center">
-          {t.register}
-        </h1>
-
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <input
-            type="text"
+    <AuthCard
+      title={t.register}
+      showBackButton
+      backLabel={t.back}
+      footer={
+        <p className="text-black/80 dark:text-white/80">
+          {t.alreadyAccount}{" "}
+          <Link href="/login" className="underline">
+            {t.login}
+          </Link>
+        </p>
+      }
+    >
+      {submitted ? (
+        <p className="text-center">{t.registerSuccess}</p>
+      ) : (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit(submit);
+          }}
+          className="flex flex-col gap-4"
+        >
+          <AuthInput
             placeholder={t.username}
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="w-full px-4 py-2 rounded-md bg-white/20 dark:bg-black/20 border border-black/20 dark:border-white/20 text-black dark:text-white placeholder-black/60 dark:placeholder-white/60 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-black/40 dark:focus:ring-white/40 transition"
+            value={values.username}
+            onChange={handleChange("username")}
+            error={errors.username}
           />
-          <input
+          <AuthInput
+            type="email"
+            placeholder={t.email}
+            value={values.email}
+            onChange={handleChange("email")}
+            error={errors.email}
+          />
+          <AuthInput
             type="password"
             placeholder={t.password}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 rounded-md bg-white/20 dark:bg-black/20 border border-black/20 dark:border-white/20 text-black dark:text-white placeholder-black/60 dark:placeholder-white/60 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-black/40 dark:focus:ring-white/40 transition"
+            value={values.password}
+            onChange={handleChange("password")}
+            error={errors.password}
           />
-          <input
+          <AuthInput
             type="password"
             placeholder={t.confirmPassword}
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full px-4 py-2 rounded-md bg-white/20 dark:bg-black/20 border border-black/20 dark:border-white/20 text-black dark:text-white placeholder-black/60 dark:placeholder-white/60 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-black/40 dark:focus:ring-white/40 transition"
+            value={values.confirmPassword}
+            onChange={handleChange("confirmPassword")}
+            error={errors.confirmPassword}
           />
-
           <GlassButton
             type="submit"
             label={loading ? t.loading : t.register}
             className="w-full"
           />
         </form>
-
-        <div className="flex flex-col items-center mt-6 gap-2 text-sm text-center">
-          <p className="text-black/80 dark:text-white/80">
-            {t.alreadyAccount}{" "}
-            <Link href="/login" className="underline hover:opacity-80">
-              {t.login}
-            </Link>
-          </p>
-        </div>
-
-        <div className="mt-6 flex justify-center">
-          <GlassButton href="/" label={t.back} className="w-full sm:w-auto" />
-        </div>
-      </div>
-    </div>
+      )}
+    </AuthCard>
   );
 }

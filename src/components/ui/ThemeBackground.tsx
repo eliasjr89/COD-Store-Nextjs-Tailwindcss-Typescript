@@ -25,7 +25,7 @@ export const ThemeBackground = () => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.4, ease: "easeInOut" }}
-        className="fixed inset-0 z-0 pointer-events-none bg-center bg-no-repeat"
+        className="fixed inset-0 z-[-1] pointer-events-none bg-center bg-no-repeat"
         style={{
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: "cover",

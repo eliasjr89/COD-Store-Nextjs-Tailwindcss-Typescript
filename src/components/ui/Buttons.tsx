@@ -1,43 +1,44 @@
+"use client";
+
+import clsx from "clsx";
 import Link from "next/link";
 
-interface GlassButtonProps {
-  href?: string; // Opcional, si es un enlace
-  type?: "button" | "submit" | "reset"; // Opcional, si es un botón de formulario
+interface GlassButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
-  className?: string;
-  onClick?: () => void; // 👈 añadimos onClick
+  href?: string;
+  variant?: "primary" | "secondary" | "link";
 }
 
 export default function GlassButton({
-  href,
-  type,
   label,
-  className = "",
-  onClick,
+  href,
+  variant = "primary",
+  className,
+  ...props
 }: GlassButtonProps) {
-  const baseClasses = `
-    px-6 sm:px-8 py-2 sm:py-2.5 rounded-md font-light transition duration-300 ease-linear text-center
-    bg-white/20 dark:bg-black/20 backdrop-blur-md
-    border border-black/20 dark:border-white/20
-    shadow-[0_4px_14px_0_rgba(0,0,0,0.15)] dark:shadow-[0_4px_14px_0_rgba(255,255,255,0.15)]
-    hover:shadow-[0_6px_20px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_6px_20px_rgba(255,255,255,0.15)]
-    hover:bg-black/30 hover:text-white hover:border-black/30
-    dark:hover:bg-white/30 dark:hover:text-black dark:hover:border-white/30
-    text-black dark:text-white
-    w-full sm:w-auto
-    ${className}
-  `;
+  const baseStyles =
+    "rounded-xl px-4 py-2 text-sm font-medium backdrop-blur-md transition shadow-md focus:outline-none focus:ring-2";
+  const variants = {
+    primary:
+      "bg-white/20 dark:bg-black/20 text-black dark:text-white border border-black/20 dark:border-white/20 hover:bg-white/30 dark:hover:bg-black/30 focus:ring-black/40 dark:focus:ring-white/40",
+    secondary:
+      "bg-transparent text-black dark:text-white border border-black/30 dark:border-white/30 hover:bg-black/10 dark:hover:bg-white/10 focus:ring-black/40 dark:focus:ring-white/40",
+    link: "bg-transparent text-black dark:text-white underline px-0 py-0 hover:opacity-80",
+  };
+
+  const classes = clsx(baseStyles, variants[variant], className);
 
   if (href) {
     return (
-      <Link href={href} className={baseClasses}>
+      <Link href={href} className={classes}>
         {label}
       </Link>
     );
   }
 
   return (
-    <button type={type || "button"} onClick={onClick} className={baseClasses}>
+    <button className={classes} {...props}>
       {label}
     </button>
   );
