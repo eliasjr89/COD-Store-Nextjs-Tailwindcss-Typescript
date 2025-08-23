@@ -23,7 +23,7 @@ export async function GET(req: Request) {
   let payload: TokenPayload;
   try {
     payload = jwt.verify(token, process.env.JWT_SECRET!) as TokenPayload;
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Token inválido" }, { status: 401 });
   }
 
