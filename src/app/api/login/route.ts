@@ -32,7 +32,8 @@ export async function POST(req: Request) {
       token,
       user: { id: user.id, email: user.email, username: user.username },
     });
-  } catch {
+  } catch (err) {
+    console.error("POST /api/login error:", err);
     return NextResponse.json(
       { error: "Error interno del servidor" },
       { status: 500 }
