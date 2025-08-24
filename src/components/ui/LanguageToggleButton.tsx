@@ -8,35 +8,38 @@ export default function LanguageToggleButton() {
   const { language, toggleLanguage } = useLanguage();
 
   return (
-    <motion.button
+    <button
       onClick={toggleLanguage}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      aria-label="Change Language"
       className="
-        flex items-center gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-full
-        border border-gray-300 dark:border-gray-600
-        bg-white/40 dark:bg-black/30
-        backdrop-blur-md
-        shadow-md hover:shadow-lg
-        transition-all duration-300
-        text-gray-800 dark:text-gray-100 font-medium
+        p-2 sm:p-2.5 rounded-full
+        bg-white/30 dark:bg-black/30 backdrop-blur-md
+        border border-black/10 dark:border-white/20
+        shadow-[0_4px_14px_0_rgba(0,0,0,0.25)] dark:shadow-[0_4px_14px_0_rgba(255,255,255,0.39)]
+        hover:bg-white/50 dark:hover:bg-black/50
+        hover:border-black/20 dark:hover:border-white/30
+        flex items-center justify-center
+        transition-colors duration-300 ease-in-out
       "
     >
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={language}
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 8 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, rotate: -90 }}
+          animate={{ opacity: 1, rotate: 0 }}
+          exit={{ opacity: 0, rotate: 90 }}
+          transition={{ duration: 0.3 }}
           className="flex items-center gap-1"
         >
-          <MdLanguage size={18} /> {/* Mantengo el tamaño original */}
-          <span className="text-sm sm:text-sm font-semibold">
+          <MdLanguage
+            size={20} // Tamaño uniforme como el IconLogout
+            className="text-dark-500 dark:text-white-400"
+          />
+          <span className="text-sm font-semibold">
             {language === "ES" ? "ES" : "EN"}
           </span>
         </motion.div>
       </AnimatePresence>
-    </motion.button>
+    </button>
   );
 }

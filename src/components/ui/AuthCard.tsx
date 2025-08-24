@@ -1,6 +1,6 @@
 "use client";
 
-import GlassButton from "@/components/ui/Buttons";
+import GlassButton from "@/components/ui/Button";
 
 interface AuthCardProps {
   title: string;

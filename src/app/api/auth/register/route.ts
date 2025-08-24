@@ -1,12 +1,15 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { success, sendError } from "@/lib/response";
+import { isUsernameOrEmailTaken } from "@/lib/validators/user";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const { username, email, password, confirmPassword } = await req.json();
 
-    // Validaciones rápidas
+    // Validaciones
     const validations = [
       {
         valid:
@@ -32,45 +35,35 @@ export async function POST(req: Request) {
     ];
 
     const failed = validations.find((v) => !v.valid);
-    if (failed)
-      return NextResponse.json({ error: failed.error }, { status: 400 });
+    if (failed) return sendError(failed.error, 400);
 
-    // Verificación de duplicados en paralelo
-    const [existingUsername, existingEmail] = await Promise.all([
-      prisma.user.findUnique({ where: { username } }),
-      prisma.user.findUnique({ where: { email } }),
-    ]);
+    // Verificar duplicados
+    if (await isUsernameOrEmailTaken(username, email)) {
+      return sendError("Usuario o email ya en uso", 409);
+    }
 
-    const duplicateError = existingUsername
-      ? "El nombre de usuario ya está en uso"
-      : existingEmail
-      ? "El email ya está en uso"
-      : null;
-
-    if (duplicateError)
-      return NextResponse.json({ error: duplicateError }, { status: 409 });
-
-    // Crear usuario con contraseña hasheada
+    // Crear usuario
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = await prisma.user.create({
       data: { username, email, password: hashedPassword },
-      select: {
-        id: true,
-        username: true,
-        email: true,
-        createdAt: true,
-        updatedAt: true,
-      },
     });
 
-    return NextResponse.json(
-      { message: "Usuario creado con éxito", user },
-      { status: 201 }
+    // Generar JWT
+    const token = jwt.sign(
+      { id: user.id, email: user.email },
+      process.env.JWT_SECRET!,
+      { expiresIn: "7d" }
     );
-  } catch {
-    return NextResponse.json(
-      { error: "Error interno del servidor" },
-      { status: 500 }
-    );
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        token,
+        user: { id: user.id, username: user.username, email: user.email },
+      },
+    });
+  } catch (err) {
+    console.error("POST /api/register error:", err);
+    return sendError("Error interno del servidor", 500);
   }
 }

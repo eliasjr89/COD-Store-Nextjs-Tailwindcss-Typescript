@@ -2,7 +2,7 @@
 
 import AuthCard from "@/components/ui/AuthCard";
 import AuthInput from "@/components/ui/AuthInput";
-import GlassButton from "@/components/ui/Buttons";
+import GlassButton from "@/components/ui/Button";
 import Link from "next/link";
 import { useForm } from "@/hooks/useForm";
 import { dictionary } from "@/locale/dictionary";
@@ -21,8 +21,17 @@ export default function ForgotPassword() {
 
     if (Object.keys(fieldErrors).length > 0) throw { fieldErrors };
 
-    // simulación recuperación
-    await new Promise((res) => setTimeout(res, 1000));
+    const res = await fetch("/api/auth/forgot-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: values.email }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw { fieldErrors: { general: data.error } };
+
+    return data;
   };
 
   return (

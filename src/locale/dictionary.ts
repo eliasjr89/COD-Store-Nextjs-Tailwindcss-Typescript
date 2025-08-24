@@ -26,9 +26,29 @@ export const dictionary = {
     loading: "Cargando...",
     invalidCredentials: "Usuario o contraseña inválidos",
     validationErrorsTitle: "Errores de validación",
-    close: "Cerrar", // nueva clave
+    close: "Cerrar",
     loginSuccess: "Has iniciado sesión correctamente",
     registerSuccess: "¡Registro completado con éxito!",
+
+    // Dashboard
+    dashboardWelcome: "Bienvenido al Dashboard",
+    dashboardLoadError: "No se pudo cargar el usuario",
+    dashboardUsername: "Usuario",
+    dashboardEmail: "Correo electrónico",
+    dashboardSettings: "Configuraciones",
+    dashboardEditProfile: "Editar perfil",
+    dashboardOrders: "Mis pedidos",
+    dashboardSupport: "Soporte",
+    dashboardStats: "Estadísticas",
+    dashboardRevenue: "Ingresos",
+    dashboardVisits: "Visitas",
+    dashboardRecentOrders: "Pedidos recientes",
+    dashboardQuickActions: "Acciones rápidas",
+
+    // DashboardLayout extras
+    goodbye: "Hasta pronto...",
+    redirectingLogin: "Redirigiendo al login...",
+    pleaseWait: "Por favor espera",
   },
   EN: {
     welcome: "Welcome to Call Of Duty",
@@ -59,5 +79,24 @@ export const dictionary = {
     close: "Close",
     loginSuccess: "You have successfully logged in",
     registerSuccess: "Registration completed successfully!",
+
+    // Dashboard
+    dashboardWelcome: "Welcome to the Dashboard",
+    dashboardLoadError: "Could not load user",
+    dashboardUsername: "Username",
+    dashboardEmail: "Email",
+    dashboardSettings: "Settings",
+    dashboardEditProfile: "Edit Profile",
+    dashboardOrders: "My Orders",
+    dashboardSupport: "Support",
+    dashboardStats: "Statistics",
+    dashboardRevenue: "Revenue",
+    dashboardVisits: "Visits",
+    dashboardRecentOrders: "Recent Orders",
+    dashboardQuickActions: "Quick Actions",
+
+    // DashboardLayout extras
+    goodbye: "Goodbye...",
+    pleaseWait: "Please wait",
   },
 };

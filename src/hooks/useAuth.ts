@@ -8,7 +8,7 @@ export const useAuth = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("tokem");
+    const token = localStorage.getItem("token");
     if (!token) {
       router.replace("/login");
     } else {

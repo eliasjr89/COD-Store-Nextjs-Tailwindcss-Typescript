@@ -2,15 +2,19 @@
 
 import AuthCard from "@/components/ui/AuthCard";
 import AuthInput from "@/components/ui/AuthInput";
-import GlassButton from "@/components/ui/Buttons";
+import GlassButton from "@/components/ui/Button";
 import Link from "next/link";
 import { useForm } from "@/hooks/useForm";
 import { dictionary } from "@/locale/dictionary";
 import { useLanguage } from "@/context/LanguageContext";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Register() {
   const { language } = useLanguage();
   const t = dictionary[language];
+  const { setToken } = useAuth();
+  const router = useRouter();
 
   const { values, handleChange, errors, loading, submitted, handleSubmit } =
     useForm({ username: "", email: "", password: "", confirmPassword: "" });
@@ -25,7 +29,7 @@ export default function Register() {
 
     if (Object.keys(fieldErrors).length > 0) throw { fieldErrors };
 
-    const res = await fetch("/api/register", {
+    const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),
@@ -34,6 +38,12 @@ export default function Register() {
     const data = await res.json();
 
     if (!res.ok) throw { fieldErrors: { general: data.error } };
+
+    // Guardar token y redirigir
+    if (data.data?.token) {
+      localStorage.setItem("token", data.data.token);
+      router.push("/dashboard");
+    }
 
     return data;
   };

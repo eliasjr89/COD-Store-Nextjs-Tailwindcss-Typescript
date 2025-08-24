@@ -2,16 +2,18 @@
 
 import AuthCard from "@/components/ui/AuthCard";
 import AuthInput from "@/components/ui/AuthInput";
-import GlassButton from "@/components/ui/Buttons";
+import GlassButton from "@/components/ui/Button";
 import Link from "next/link";
 import { useForm } from "@/hooks/useForm";
 import { dictionary } from "@/locale/dictionary";
 import { useLanguage } from "@/context/LanguageContext";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Login() {
   const { language } = useLanguage();
   const t = dictionary[language];
+  const { setToken } = useAuth();
   const router = useRouter();
 
   const { values, handleChange, errors, loading, submitted, handleSubmit } =
@@ -24,23 +26,21 @@ export default function Login() {
 
     if (Object.keys(fieldErrors).length > 0) throw { fieldErrors };
 
-    // Llamada real al backend
-    const res = await fetch("/api/login", {
+    const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),
     });
 
     const data = await res.json();
-    console.log("Respuesta /api/users/me:", data);
-
     if (!res.ok) throw { fieldErrors: { general: data.error } };
 
-    // Guardar token y redirigir
-    if (data.token) {
-      localStorage.setItem("token", data.token);
+    if (data.data?.token) {
+      localStorage.setItem("token", data.data.token);
+      setToken(data.data.token);
       router.push("/dashboard");
     }
+
     return data;
   };
 
