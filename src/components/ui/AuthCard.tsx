@@ -39,7 +39,7 @@ export default function AuthCard({
           backgroundColor: "rgba(0,0,0,0.1)",
         }}
         transition={{ duration: 1, ease: "easeInOut" }}
-        className="w-full max-w-md rounded-2xl shadow-xl p-6 sm:p-8 flex flex-col gap-6 border border-white/30 dark:border-white/30"
+        className="w-full max-w-[90%] sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 flex flex-col gap-6 border border-white/30 dark:border-white/30"
       >
         {showBackButton && (
           <Link
@@ -52,7 +52,7 @@ export default function AuthCard({
         )}
 
         {title && (
-          <h1 className="text-2xl font-semibold text-center text-black/80 dark:text-white transition-colors duration-300">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-center text-black/80 dark:text-white transition-colors duration-300">
             {title}
           </h1>
         )}

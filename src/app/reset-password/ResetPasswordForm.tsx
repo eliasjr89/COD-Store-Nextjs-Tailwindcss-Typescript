@@ -59,63 +59,64 @@ export default function ResetPasswordForm() {
       backLabel={t.back}
       footer={null}
     >
-      {submitted ? (
-        <motion.div
-          key="successMessage"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-        >
+      <motion.div
+        key={submitted ? "success" : "form"}
+        initial={{ opacity: 0, y: 10, backdropFilter: "blur(1px)" }}
+        animate={{ opacity: 1, y: 0, backdropFilter: "blur(2px)" }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.6, ease: [0.42, 0, 0.58, 1] }}
+        className="flex flex-col gap-4 w-full"
+      >
+        {submitted ? (
           <FormMessage>{t.passwordUpdated}</FormMessage>
-        </motion.div>
-      ) : (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit(submit);
-          }}
-          className="flex flex-col gap-4"
-        >
-          <AuthInput
-            type="password"
-            placeholder={t.password}
-            value={values.newPassword}
-            onChange={handleChange("newPassword")}
-            error={errors.newPassword}
-          />
-          <AuthInput
-            type="password"
-            placeholder={t.confirmPassword}
-            value={values.confirmPassword}
-            onChange={handleChange("confirmPassword")}
-            error={errors.confirmPassword}
-          />
-          {errors.general && (
-            <FormMessage type="error">{errors.general}</FormMessage>
-          )}
-          <AnimatePresence mode="wait">
-            {loading ? (
-              <motion.div
-                key="spinner"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                className="flex justify-center py-2"
-              >
-                <Spinner size={24} />
-              </motion.div>
-            ) : (
-              <GlassButton
-                key="submit"
-                type="submit"
-                label={t.updatePassword}
-                className="w-full"
-              />
+        ) : (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit(submit);
+            }}
+            className="flex flex-col gap-4 w-full"
+          >
+            <AuthInput
+              type="password"
+              placeholder={t.password}
+              value={values.newPassword}
+              onChange={handleChange("newPassword")}
+              error={errors.newPassword}
+            />
+            <AuthInput
+              type="password"
+              placeholder={t.confirmPassword}
+              value={values.confirmPassword}
+              onChange={handleChange("confirmPassword")}
+              error={errors.confirmPassword}
+            />
+            {errors.general && (
+              <FormMessage type="error">{errors.general}</FormMessage>
             )}
-          </AnimatePresence>
-        </form>
-      )}
+            <AnimatePresence mode="wait">
+              {loading ? (
+                <motion.div
+                  key="spinner"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="flex justify-center py-2"
+                >
+                  <Spinner size={24} />
+                </motion.div>
+              ) : (
+                <GlassButton
+                  key="submit"
+                  type="submit"
+                  label={t.updatePassword}
+                  className="w-full"
+                />
+              )}
+            </AnimatePresence>
+          </form>
+        )}
+      </motion.div>
     </AuthCard>
   );
 }

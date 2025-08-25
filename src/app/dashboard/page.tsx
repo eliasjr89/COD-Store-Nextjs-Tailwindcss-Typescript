@@ -92,7 +92,7 @@ export default function DashboardPage() {
           <h2 className="text-xl font-semibold text-card-foreground">
             {t.dashboardSettings}
           </h2>
-          <GlassButton label={t.dashboardEditProfile} variant="primary" />
+          <GlassButton label={t.dashboardEditProfile} variant="secondary" />
           <GlassButton label={t.dashboardOrders} variant="secondary" />
           <GlassButton label={t.dashboardSupport} variant="secondary" />
         </motion.div>

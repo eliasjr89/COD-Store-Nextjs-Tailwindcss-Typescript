@@ -1,3 +1,4 @@
+import { motion, AnimatePresence } from "framer-motion";
 import clsx from "clsx";
 import { FormMessageProps } from "@/types";
 
@@ -18,8 +19,16 @@ export default function FormMessage({
   };
 
   return (
-    <div className={clsx(baseStyles, typeStyles[type], className)}>
-      {children}
-    </div>
+    <AnimatePresence mode="wait">
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        transition={{ duration: 0.3 }}
+        className={clsx(baseStyles, typeStyles[type], className)}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
   );
 }
