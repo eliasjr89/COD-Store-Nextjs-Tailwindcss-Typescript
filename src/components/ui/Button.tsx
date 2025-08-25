@@ -12,13 +12,13 @@ export default function GlassButton({
   ...props
 }: GlassButtonProps) {
   const baseStyles =
-    "rounded-xl px-4 py-2 text-sm font-medium backdrop-blur-md transition shadow-md focus:outline-none focus:ring-2 flex justify-center items-center whitespace-nowrap";
+    "rounded-2xl px-4 py-3 text-sm font-medium backdrop-blur-lg bg-white/30 dark:bg-black/40 border border-white/40 dark:border-white/20 shadow-xl transition-colors duration-300 flex justify-center items-center whitespace-nowrap";
 
   const variants = {
     primary:
       "bg-white/20 dark:bg-black/20 text-black dark:text-white border border-black/20 dark:border-white/20 hover:bg-white/30 dark:hover:bg-black/30 focus:ring-black/40 dark:focus:ring-white/40",
     secondary:
-      "bg-transparent text-black dark:text-white border border-black/30 dark:border-white/30 hover:bg-black/10 dark:hover:bg-white/10 focus:ring-black/40 dark:focus:ring-white/40",
+      "bg-transparent text-black dark:text-white border border-black/30 dark:border-white/30 hover:bg-black/20 dark:hover:bg-white/10 focus:ring-black/40 dark:focus:ring-white/40",
     link: "bg-transparent text-black dark:text-white underline px-0 py-0 hover:opacity-80",
   };
 

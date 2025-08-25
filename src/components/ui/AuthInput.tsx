@@ -11,11 +11,7 @@ export default function AuthInput({
       <input
         {...props}
         className={clsx(
-          "w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md",
-          "bg-white/20 dark:bg-black/20",
-          "border border-black/20 dark:border-white/20",
-          "text-black dark:text-white placeholder-black/60 dark:placeholder-white/60 text-sm sm:text-base",
-          "backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-black/40 dark:focus:ring-white/40 transition",
+          "w-full px-4 py-3 rounded-2xl bg-white/2 dark:bg-black/40 backdrop-blur-lg border border-white/40 dark:border-white/20 text-black dark:text-white placeholder-black/80 dark:placeholder-white/80 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-black/40 dark:focus:ring-white/40 transition-all duration-300 ease-in-out",
           error && "border-red-500 focus:ring-red-400",
           className
         )}

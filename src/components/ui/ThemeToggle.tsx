@@ -20,11 +20,11 @@ export default function ThemeToggleButton() {
       aria-label="Toggle Theme"
       className="
         p-2 sm:p-2.5 rounded-full
-        bg-white/30 dark:bg-black/30 backdrop-blur-md
+        bg-white/4 dark:bg-black/30 backdrop-blur-md
         border border-black/10 dark:border-white/20
         shadow-[0_4px_14px_0_rgba(0,0,0,0.25)] dark:shadow-[0_4px_14px_0_rgba(255,255,255,0.39)]
         hover:bg-white/50 dark:hover:bg-black/50
-        hover:border-black/20 dark:hover:border-white/30
+        hover:border-black/20 dark:hover:border-white/50
         flex items-center justify-center
         transition-colors duration-300 ease-in-out
       "

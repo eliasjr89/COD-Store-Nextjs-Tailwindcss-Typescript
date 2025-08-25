@@ -1,11 +1,15 @@
 import { useTranslation } from "@/hooks/useTranslations";
 import { AuthFooterProps } from "@/types";
 import Link from "next/link";
+import clsx from "clsx";
 
 export default function AuthFooter({ type }: AuthFooterProps) {
   const { t } = useTranslation();
 
-  const base = "text-black/80 dark:text-white/80 text-sm";
+  const base = clsx(
+    "text-black/80 dark:text-white/80 text-sm px-3 py-1 rounded-md backdrop-blur-md",
+    "bg-white/10 dark:bg-black/10"
+  );
   const link = "underline hover:opacity-80";
 
   switch (type) {

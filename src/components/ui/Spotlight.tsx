@@ -6,12 +6,12 @@ import { useTheme } from "next-themes";
 import { SpotlightProps } from "@/types";
 
 export const Spotlight = ({
-  translateY = "-20vh",
-  width = "140vw",
-  height = "120vh",
-  smallWidth = "60vw",
+  translateY = "-30vh",
+  width = "180vw",
+  height = "150vh",
+  smallWidth = "15vw",
   duration = 15,
-  xOffset = "50vw",
+  xOffset = "60vw",
   gradientFirst,
   gradientSecond,
   gradientThird,

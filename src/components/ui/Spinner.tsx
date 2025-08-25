@@ -2,11 +2,12 @@
 
 import { SpinnerProps } from "@/types";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "next-themes";
 
-export default function Spinner({
-  size = 24,
-  color = "#ffffff",
-}: SpinnerProps) {
+export default function Spinner({ size = 24, color }: SpinnerProps) {
+  const { theme } = useTheme();
+  const strokeColor = color || (theme === "dark" ? "#ffffff" : "#000000");
+
   return (
     <AnimatePresence mode="wait" initial={false}>
       <motion.div
@@ -24,7 +25,7 @@ export default function Spinner({
           height={size}
           viewBox="0 0 24 24"
           fill="none"
-          stroke={color}
+          stroke={strokeColor}
           strokeWidth="3"
           strokeLinecap="round"
           strokeLinejoin="round"
