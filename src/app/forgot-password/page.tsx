@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useForm } from "@/hooks/useForm";
 import { dictionary } from "@/locale/dictionary";
 import { useLanguage } from "@/context/LanguageContext";
+import { AnimatePresence, motion } from "framer-motion";
+import Spinner from "@/components/ui/Spinner";
 
 export default function ForgotPassword() {
   const { language } = useLanguage();
@@ -21,34 +23,44 @@ export default function ForgotPassword() {
 
     if (Object.keys(fieldErrors).length > 0) throw { fieldErrors };
 
-    const res = await fetch("/api/auth/forgot-password", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: values.email }),
-    });
+    try {
+      const res = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: values.email }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (!res.ok)
-      throw { fieldErrors: { general: data.error || "Error desconocido" } };
+      if (!res.ok)
+        throw { fieldErrors: { general: data.error || "Error desconocido" } };
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "Ocurrió un error inesperado";
+      throw { fieldErrors: { general: message } };
+    }
   };
 
   return (
     <AuthCard
-      title={t.forgotPassword}
-      showBackButton
+      title={submitted ? "" : t.forgotPassword} // Oculta el título cuando se envía
+      showBackButton={!submitted} // Oculta el botón de volver cuando se envía
       backLabel={t.back}
       footer={
-        <p className="text-black/80 dark:text-white/80">
-          {t.rememberPassword}{" "}
-          <Link href="/login" className="underline">
-            {t.login}
-          </Link>
-        </p>
+        !submitted && ( // Oculta el footer cuando se envía
+          <p className="text-black/80 dark:text-white/80">
+            {t.rememberPassword}{" "}
+            <Link href="/login" className="underline">
+              {t.login}
+            </Link>
+          </p>
+        )
       }
     >
       {submitted ? (
-        <p className="text-center">{t.resetEmailSent}</p>
+        <p className="text-center text-black/80 dark:text-white/80 text-xl -mt-4">
+          {t.resetEmailSent}
+        </p>
       ) : (
         <form
           onSubmit={(e) => {
@@ -67,11 +79,26 @@ export default function ForgotPassword() {
           {errors.general && (
             <p className="text-red-500 text-sm text-center">{errors.general}</p>
           )}
-          <GlassButton
-            type="submit"
-            label={loading ? t.loading : t.sendResetLink}
-            className="w-full"
-          />
+          <AnimatePresence mode="wait">
+            {loading ? (
+              <motion.div
+                key="spinner"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className="flex justify-center py-2"
+              >
+                <Spinner size={24} />
+              </motion.div>
+            ) : (
+              <GlassButton
+                key="submit"
+                type="submit"
+                label={t.sendResetLink}
+                className="w-full"
+              />
+            )}
+          </AnimatePresence>
         </form>
       )}
     </AuthCard>

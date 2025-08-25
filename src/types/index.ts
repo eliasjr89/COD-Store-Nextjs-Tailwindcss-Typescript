@@ -1,6 +1,8 @@
 import { InputHTMLAttributes, ReactNode } from "react";
 
 export type Language = "ES" | "EN";
+
+export type FieldErrors<T> = Partial<Record<keyof T | "general", string>>;
 export interface Dictionary {
   ES: Record<string, string>;
   EN: Record<string, string>;
@@ -22,7 +24,7 @@ export interface MagneticTextProps {
 }
 export interface GlassButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  label: string;
+  label: string | React.ReactNode;
   href?: string;
   variant?: "primary" | "secondary" | "link";
 }
@@ -54,4 +56,8 @@ export interface StatusModalProps {
 
 export interface DashboardLayoutProps {
   children: ReactNode;
+}
+export interface SpinnerProps {
+  size?: number; // Tamaño del spinner en px
+  color?: string; // Color del spinner
 }

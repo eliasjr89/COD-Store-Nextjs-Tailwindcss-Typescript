@@ -9,6 +9,8 @@ import { dictionary } from "@/locale/dictionary";
 import { useLanguage } from "@/context/LanguageContext";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import { AnimatePresence, motion } from "framer-motion";
+import Spinner from "@/components/ui/Spinner";
 
 export default function Login() {
   const { language } = useLanguage();
@@ -30,19 +32,16 @@ export default function Login() {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: values.email,
-          password: values.password,
-        }),
+        body: JSON.stringify(values),
       });
 
       const data = await res.json();
-
       if (!res.ok) throw new Error(data.error || "Error al iniciar sesión");
 
       localStorage.setItem("token", data.data.token);
       setToken(data.data.token);
-      router.push("/dashboard");
+
+      setTimeout(() => router.push("/dashboard"), 1000);
     } catch (err: unknown) {
       const message =
         err instanceof Error ? err.message : "Ocurrió un error inesperado";
@@ -52,60 +51,90 @@ export default function Login() {
 
   return (
     <AuthCard
-      title={t.login}
-      showBackButton
+      title={submitted ? "" : t.login}
+      showBackButton={!submitted}
       backLabel={t.back}
       footer={
-        <>
-          <p className="text-black/80 dark:text-white/80">
-            {t.noAccount}{" "}
-            <Link href="/register" className="underline">
-              {t.register}
+        !submitted && (
+          <>
+            <p className="text-black/80 dark:text-white/80">
+              {t.noAccount}{" "}
+              <Link href="/register" className="underline">
+                {t.register}
+              </Link>
+            </p>
+            <Link
+              href="/forgot-password"
+              className="text-black/80 dark:text-white/80 underline"
+            >
+              {t.forgotPassword}
             </Link>
-          </p>
-          <Link
-            href="/forgot-password"
-            className="text-black/80 dark:text-white/80 underline"
-          >
-            {t.forgotPassword}
-          </Link>
-        </>
+          </>
+        )
       }
     >
-      {submitted ? (
-        <p className="text-center">{t.loginSuccess}</p>
-      ) : (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit(submit);
-          }}
-          className="flex flex-col gap-4"
-        >
-          <AuthInput
-            type="email"
-            placeholder={t.email}
-            value={values.email}
-            onChange={handleChange("email")}
-            error={errors.email}
-          />
-          <AuthInput
-            type="password"
-            placeholder={t.password}
-            value={values.password}
-            onChange={handleChange("password")}
-            error={errors.password}
-          />
-          {errors.general && (
-            <p className="text-red-500 text-sm text-center">{errors.general}</p>
-          )}
-          <GlassButton
-            type="submit"
-            label={loading ? t.loading : t.login}
-            className="w-full"
-          />
-        </form>
-      )}
+      <AnimatePresence mode="wait" initial={false}>
+        {submitted ? (
+          <motion.p
+            key="successMessage"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="text-center text-black/80 dark:text-white/80 text-xl -mt-2"
+          >
+            {t.loginSuccess}
+          </motion.p>
+        ) : (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit(submit);
+            }}
+            className="flex flex-col gap-4"
+          >
+            <AuthInput
+              type="email"
+              placeholder={t.email}
+              value={values.email}
+              onChange={handleChange("email")}
+              error={errors.email}
+            />
+            <AuthInput
+              type="password"
+              placeholder={t.password}
+              value={values.password}
+              onChange={handleChange("password")}
+              error={errors.password}
+            />
+            {errors.general && (
+              <p className="text-red-500 text-sm text-center">
+                {errors.general}
+              </p>
+            )}
+            <AnimatePresence mode="wait">
+              {loading ? (
+                <motion.div
+                  key="spinner"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="flex justify-center py-2"
+                >
+                  <Spinner size={24} />
+                </motion.div>
+              ) : (
+                <GlassButton
+                  key="submit"
+                  type="submit"
+                  label={t.login}
+                  className="w-full"
+                />
+              )}
+            </AnimatePresence>
+          </form>
+        )}
+      </AnimatePresence>
     </AuthCard>
   );
 }

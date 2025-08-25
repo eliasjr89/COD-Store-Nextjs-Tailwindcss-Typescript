@@ -7,6 +7,8 @@ import { useForm } from "@/hooks/useForm";
 import { useSearchParams, useRouter } from "next/navigation";
 import { dictionary } from "@/locale/dictionary";
 import { useLanguage } from "@/context/LanguageContext";
+import { AnimatePresence, motion } from "framer-motion";
+import Spinner from "@/components/ui/Spinner";
 
 export default function ResetPasswordForm() {
   const { language } = useLanguage();
@@ -42,7 +44,8 @@ export default function ResetPasswordForm() {
       if (!res.ok)
         throw new Error(data.error || "Error al actualizar la contraseña");
 
-      router.push("/login");
+      // Después de enviar correctamente, dejamos el mensaje y redirigimos
+      setTimeout(() => router.push("/login"), 1500);
     } catch (err: unknown) {
       const message =
         err instanceof Error ? err.message : "Ocurrió un error inesperado";
@@ -51,9 +54,16 @@ export default function ResetPasswordForm() {
   };
 
   return (
-    <AuthCard title={t.resetPassword}>
+    <AuthCard
+      title={submitted ? "" : t.resetPassword} // Oculta el título cuando se envía
+      showBackButton={!submitted} // Oculta el botón de volver cuando se envía
+      backLabel={t.back}
+      footer={null} // Sin footer en el mensaje de confirmación
+    >
       {submitted ? (
-        <p className="text-center">{t.passwordUpdated}</p>
+        <p className="text-center text-black/80 dark:text-white/80 text-xl -mt-4">
+          {t.passwordUpdated}
+        </p>
       ) : (
         <form
           onSubmit={(e) => {
@@ -79,11 +89,26 @@ export default function ResetPasswordForm() {
           {errors.general && (
             <p className="text-red-500 text-sm text-center">{errors.general}</p>
           )}
-          <GlassButton
-            type="submit"
-            label={loading ? t.loading : t.updatePassword}
-            className="w-full"
-          />
+          <AnimatePresence mode="wait">
+            {loading ? (
+              <motion.div
+                key="spinner"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className="flex justify-center py-2"
+              >
+                <Spinner size={24} />
+              </motion.div>
+            ) : (
+              <GlassButton
+                key="submit"
+                type="submit"
+                label={t.updatePassword}
+                className="w-full"
+              />
+            )}
+          </AnimatePresence>
         </form>
       )}
     </AuthCard>
