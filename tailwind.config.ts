@@ -14,8 +14,8 @@ export default {
         shimmer: "shimmer 2s linear infinite",
       },
       colors: {
-        primary: "#2563eb", // Azul
-        secondary: "#64748b", // Gris
+        primary: "#2563eb",
+        secondary: "#64748b",
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],

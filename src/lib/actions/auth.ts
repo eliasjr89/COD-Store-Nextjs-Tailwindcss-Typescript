@@ -1,4 +1,3 @@
-// lib/actions/auth.ts
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";

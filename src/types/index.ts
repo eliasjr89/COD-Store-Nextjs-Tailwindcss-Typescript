@@ -58,6 +58,6 @@ export interface DashboardLayoutProps {
   children: ReactNode;
 }
 export interface SpinnerProps {
-  size?: number; // Tamaño del spinner en px
-  color?: string; // Color del spinner
+  size?: number;
+  color?: string;
 }

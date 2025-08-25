@@ -43,11 +43,11 @@ export default function ForgotPassword() {
 
   return (
     <AuthCard
-      title={submitted ? "" : t.forgotPassword} // Oculta el título cuando se envía
-      showBackButton={!submitted} // Oculta el botón de volver cuando se envía
+      title={submitted ? "" : t.forgotPassword}
+      showBackButton={!submitted}
       backLabel={t.back}
       footer={
-        !submitted && ( // Oculta el footer cuando se envía
+        !submitted && (
           <p className="text-black/80 dark:text-white/80">
             {t.rememberPassword}{" "}
             <Link href="/login" className="underline">

@@ -1,4 +1,3 @@
-// api/users/delete.ts
 import { NextRequest } from "next/server";
 import { deleteUser } from "@/lib/actions/auth";
 import { sendError, success } from "@/lib/response";

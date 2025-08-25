@@ -44,7 +44,6 @@ export default function ResetPasswordForm() {
       if (!res.ok)
         throw new Error(data.error || "Error al actualizar la contraseña");
 
-      // Después de enviar correctamente, dejamos el mensaje y redirigimos
       setTimeout(() => router.push("/login"), 1500);
     } catch (err: unknown) {
       const message =
@@ -55,10 +54,10 @@ export default function ResetPasswordForm() {
 
   return (
     <AuthCard
-      title={submitted ? "" : t.resetPassword} // Oculta el título cuando se envía
-      showBackButton={!submitted} // Oculta el botón de volver cuando se envía
+      title={submitted ? "" : t.resetPassword}
+      showBackButton={!submitted}
       backLabel={t.back}
-      footer={null} // Sin footer en el mensaje de confirmación
+      footer={null}
     >
       {submitted ? (
         <p className="text-center text-black/80 dark:text-white/80 text-xl -mt-4">

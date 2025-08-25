@@ -1,4 +1,3 @@
-// components/ui/Spinner.tsx
 "use client";
 
 import { SpinnerProps } from "@/types";

@@ -45,7 +45,6 @@ export default function Register() {
       localStorage.setItem("token", data.data.token);
       setToken(data.data.token);
 
-      // Redirige a dashboard
       setTimeout(() => router.push("/dashboard"), 1000);
     } catch (err: unknown) {
       const message =

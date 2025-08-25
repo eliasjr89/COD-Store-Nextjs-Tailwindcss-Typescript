@@ -31,10 +31,7 @@ export default function LanguageToggleButton() {
           transition={{ duration: 0.3 }}
           className="flex items-center gap-1"
         >
-          <MdLanguage
-            size={20} // Tamaño uniforme como el IconLogout
-            className="text-dark-500 dark:text-white-400"
-          />
+          <MdLanguage size={20} className="text-dark-500 dark:text-white-400" />
           <span className="text-sm font-semibold">
             {language === "ES" ? "ES" : "EN"}
           </span>
