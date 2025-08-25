@@ -9,36 +9,20 @@ export async function POST(req: NextRequest) {
   try {
     const { username, email, password, confirmPassword } = await req.json();
 
-    const validations = [
-      {
-        valid:
-          typeof username === "string" &&
-          username.trim().length >= 3 &&
-          username.trim().length <= 20 &&
-          /^[\p{L}0-9 _.@-]+$/u.test(username),
-        error:
-          "El nombre de usuario debe tener entre 3 y 20 caracteres y solo puede contener letras, números, espacios, _, ., @ o -",
-      },
-      {
-        valid: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
-        error: "Email inválido",
-      },
-      {
-        valid: typeof password === "string" && password.length >= 6,
-        error: "La contraseña debe tener al menos 6 caracteres",
-      },
-      {
-        valid: password === confirmPassword,
-        error: "Las contraseñas no coinciden",
-      },
-    ];
+    if (!username || username.trim().length < 3 || username.trim().length > 20)
+      return sendError(
+        "El nombre de usuario debe tener entre 3 y 20 caracteres",
+        400
+      );
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      return sendError("Email inválido", 400);
+    if (!password || password.length < 6)
+      return sendError("La contraseña debe tener al menos 6 caracteres", 400);
+    if (password !== confirmPassword)
+      return sendError("Las contraseñas no coinciden", 400);
 
-    const failed = validations.find((v) => !v.valid);
-    if (failed) return sendError(failed.error, 400);
-
-    if (await isUsernameOrEmailTaken(username, email)) {
+    if (await isUsernameOrEmailTaken(username, email))
       return sendError("Usuario o email ya en uso", 409);
-    }
 
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = await prisma.user.create({

@@ -44,6 +44,9 @@ export const dictionary = {
     goodbye: "Hasta pronto...",
     redirectingLogin: "Redirigiendo al login...",
     pleaseWait: "Por favor espera",
+    resetPassword: "Restablecer contraseña",
+    passwordUpdated: "Contraseña actualizada correctamente",
+    updatePassword: "Actualizar contraseña",
   },
   EN: {
     welcome: "Welcome to Call Of Duty",
@@ -89,5 +92,8 @@ export const dictionary = {
     dashboardQuickActions: "Quick Actions",
     goodbye: "Goodbye...",
     pleaseWait: "Please wait",
+    resetPassword: "Reset Password",
+    passwordUpdated: "Password updated successfully",
+    updatePassword: "Update Password",
   },
 };

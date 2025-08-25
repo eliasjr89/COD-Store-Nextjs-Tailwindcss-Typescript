@@ -26,22 +26,28 @@ export default function Login() {
 
     if (Object.keys(fieldErrors).length > 0) throw { fieldErrors };
 
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password,
+        }),
+      });
 
-    const data = await res.json();
-    if (!res.ok) throw { fieldErrors: { general: data.error } };
+      const data = await res.json();
 
-    if (data.data?.token) {
+      if (!res.ok) throw new Error(data.error || "Error al iniciar sesión");
+
       localStorage.setItem("token", data.data.token);
       setToken(data.data.token);
       router.push("/dashboard");
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "Ocurrió un error inesperado";
+      throw { fieldErrors: { general: message } };
     }
-
-    return data;
   };
 
   return (
@@ -90,6 +96,9 @@ export default function Login() {
             onChange={handleChange("password")}
             error={errors.password}
           />
+          {errors.general && (
+            <p className="text-red-500 text-sm text-center">{errors.general}</p>
+          )}
           <GlassButton
             type="submit"
             label={loading ? t.loading : t.login}

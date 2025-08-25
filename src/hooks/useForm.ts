@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export type FieldErrors<T> = Partial<Record<keyof T, string>>;
+export type FieldErrors<T> = Partial<Record<keyof T | "general", string>>;
 
 export function useForm<T>(initial: T) {
   const [values, setValues] = useState<T>(initial);

@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
-import { getUserFromRequest, TokenPayload } from "../auth";
+import { getUserFromRequest } from "../auth";
+import { TokenPayload } from "@/types";
 
 export function requireAuth(req: NextRequest): TokenPayload {
   const user = getUserFromRequest(req);

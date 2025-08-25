@@ -28,8 +28,7 @@ export async function POST(req: NextRequest) {
         token,
       },
     });
-  } catch (err) {
-    console.error("POST /api/login error:", err);
+  } catch {
     return sendError("Error interno del servidor", 500);
   }
 }

@@ -1,10 +1,6 @@
+import { TokenPayload } from "@/types";
 import jwt from "jsonwebtoken";
 import { NextRequest } from "next/server";
-
-export interface TokenPayload {
-  id: string;
-  email: string;
-}
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 

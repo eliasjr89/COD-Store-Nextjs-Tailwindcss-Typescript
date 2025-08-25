@@ -1,3 +1,5 @@
+import { InputHTMLAttributes, ReactNode } from "react";
+
 export type Language = "ES" | "EN";
 export interface Dictionary {
   ES: Record<string, string>;
@@ -24,8 +26,6 @@ export interface GlassButtonProps
   href?: string;
   variant?: "primary" | "secondary" | "link";
 }
-
-import { InputHTMLAttributes } from "react";
 export interface AuthInputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
 }
@@ -40,4 +40,18 @@ export interface AuthCardProps {
   showBackButton?: boolean;
   backLabel?: string;
   backHref?: string;
+}
+
+export interface TokenPayload {
+  id: string;
+  email: string;
+}
+
+export interface StatusModalProps {
+  message: string;
+  delay?: number;
+}
+
+export interface DashboardLayoutProps {
+  children: ReactNode;
 }

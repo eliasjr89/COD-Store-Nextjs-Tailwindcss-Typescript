@@ -29,9 +29,8 @@ export default function ForgotPassword() {
 
     const data = await res.json();
 
-    if (!res.ok) throw { fieldErrors: { general: data.error } };
-
-    return data;
+    if (!res.ok)
+      throw { fieldErrors: { general: data.error || "Error desconocido" } };
   };
 
   return (
@@ -49,7 +48,7 @@ export default function ForgotPassword() {
       }
     >
       {submitted ? (
-        <p className="text-center">{t.forgotPassword}</p>
+        <p className="text-center">{t.resetEmailSent}</p>
       ) : (
         <form
           onSubmit={(e) => {
@@ -65,6 +64,9 @@ export default function ForgotPassword() {
             onChange={handleChange("email")}
             error={errors.email}
           />
+          {errors.general && (
+            <p className="text-red-500 text-sm text-center">{errors.general}</p>
+          )}
           <GlassButton
             type="submit"
             label={loading ? t.loading : t.sendResetLink}
