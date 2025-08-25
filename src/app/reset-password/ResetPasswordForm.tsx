@@ -9,6 +9,7 @@ import { dictionary } from "@/locale/dictionary";
 import { useLanguage } from "@/context/LanguageContext";
 import { AnimatePresence, motion } from "framer-motion";
 import Spinner from "@/components/ui/Spinner";
+import FormMessage from "@/components/ui/FormMessage";
 
 export default function ResetPasswordForm() {
   const { language } = useLanguage();
@@ -26,7 +27,6 @@ export default function ResetPasswordForm() {
     if (!values.newPassword) fieldErrors.newPassword = t.passwordError;
     if (values.newPassword !== values.confirmPassword)
       fieldErrors.confirmPassword = t.confirmPasswordError;
-
     if (Object.keys(fieldErrors).length > 0) throw { fieldErrors };
 
     try {
@@ -60,9 +60,15 @@ export default function ResetPasswordForm() {
       footer={null}
     >
       {submitted ? (
-        <p className="text-center text-black/80 dark:text-white/80 text-xl -mt-4">
-          {t.passwordUpdated}
-        </p>
+        <motion.div
+          key="successMessage"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <FormMessage>{t.passwordUpdated}</FormMessage>
+        </motion.div>
       ) : (
         <form
           onSubmit={(e) => {
@@ -86,7 +92,7 @@ export default function ResetPasswordForm() {
             error={errors.confirmPassword}
           />
           {errors.general && (
-            <p className="text-red-500 text-sm text-center">{errors.general}</p>
+            <FormMessage type="error">{errors.general}</FormMessage>
           )}
           <AnimatePresence mode="wait">
             {loading ? (

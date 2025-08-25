@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { dictionary } from "@/locale/dictionary";
-import StatusModal from "@/components/ui/StatusModal";
+import FormMessage from "@/components/ui/FormMessage";
 import { DashboardLayoutProps } from "@/types";
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
@@ -23,9 +23,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <>
       {loading ? (
-        <StatusModal message={t.pleaseWait} />
+        <div className="flex justify-center items-center min-h-screen">
+          <FormMessage>{t.pleaseWait}</FormMessage>
+        </div>
       ) : !token ? (
-        <StatusModal message={t.goodbye} />
+        <div className="flex justify-center items-center min-h-screen">
+          <FormMessage>{t.goodbye}</FormMessage>
+        </div>
       ) : (
         <div className="min-h-screen p-6 text-black dark:text-white bg-background transition-colors duration-300">
           <main>{children}</main>

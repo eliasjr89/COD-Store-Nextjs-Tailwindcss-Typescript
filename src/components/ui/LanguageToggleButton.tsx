@@ -29,7 +29,7 @@ export default function LanguageToggleButton() {
           animate={{ opacity: 1, rotate: 0 }}
           exit={{ opacity: 0, rotate: 90 }}
           transition={{ duration: 0.3 }}
-          className="flex items-center gap-1"
+          className="flex items-center gap-1 sm:gap-2"
         >
           <MdLanguage size={20} className="text-dark-500 dark:text-white-400" />
           <span className="text-sm font-semibold">

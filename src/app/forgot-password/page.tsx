@@ -9,6 +9,7 @@ import { dictionary } from "@/locale/dictionary";
 import { useLanguage } from "@/context/LanguageContext";
 import { AnimatePresence, motion } from "framer-motion";
 import Spinner from "@/components/ui/Spinner";
+import FormMessage from "@/components/ui/FormMessage";
 
 export default function ForgotPassword() {
   const { language } = useLanguage();
@@ -20,7 +21,6 @@ export default function ForgotPassword() {
   const submit = async () => {
     const fieldErrors: Record<string, string> = {};
     if (!values.email) fieldErrors.email = t.emailError;
-
     if (Object.keys(fieldErrors).length > 0) throw { fieldErrors };
 
     try {
@@ -31,7 +31,6 @@ export default function ForgotPassword() {
       });
 
       const data = await res.json();
-
       if (!res.ok)
         throw { fieldErrors: { general: data.error || "Error desconocido" } };
     } catch (err: unknown) {
@@ -58,9 +57,15 @@ export default function ForgotPassword() {
       }
     >
       {submitted ? (
-        <p className="text-center text-black/80 dark:text-white/80 text-xl -mt-4">
-          {t.resetEmailSent}
-        </p>
+        <motion.div
+          key="successMessage"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <FormMessage>{t.resetEmailSent}</FormMessage>
+        </motion.div>
       ) : (
         <form
           onSubmit={(e) => {
@@ -77,7 +82,7 @@ export default function ForgotPassword() {
             error={errors.email}
           />
           {errors.general && (
-            <p className="text-red-500 text-sm text-center">{errors.general}</p>
+            <FormMessage type="error">{errors.general}</FormMessage>
           )}
           <AnimatePresence mode="wait">
             {loading ? (

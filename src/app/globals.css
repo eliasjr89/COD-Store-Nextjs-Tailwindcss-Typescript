@@ -116,7 +116,13 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Contenedor de botones responsive */
+.btn-group-responsive {
+  @apply w-full flex justify-center sm:justify-end gap-2 px-4 sm:px-0;
 }

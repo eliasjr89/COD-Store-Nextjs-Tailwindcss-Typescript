@@ -14,13 +14,11 @@ export default function Navbar() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="absolute top-4 right-4 z-50"
+      className="absolute gap-2 top-4 w-full z-50 flex justify-center sm:justify-end px-4 sm:pr-8"
     >
-      <div className="flex gap-2 items-center">
-        <LanguageToggleButton />
-        <ThemeToggleButton />
-        {token && <LogoutButton />}
-      </div>
+      <LanguageToggleButton />
+      <ThemeToggleButton />
+      {token && <LogoutButton />}
     </motion.nav>
   );
 }

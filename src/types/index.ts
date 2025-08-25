@@ -48,16 +48,15 @@ export interface TokenPayload {
   id: string;
   email: string;
 }
-
-export interface StatusModalProps {
-  message: string;
-  delay?: number;
-}
-
 export interface DashboardLayoutProps {
   children: ReactNode;
 }
 export interface SpinnerProps {
   size?: number;
   color?: string;
+}
+export interface FormMessageProps {
+  children: ReactNode;
+  type?: "success" | "error" | "info";
+  className?: string;
 }

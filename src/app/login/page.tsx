@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { AnimatePresence, motion } from "framer-motion";
 import Spinner from "@/components/ui/Spinner";
+import FormMessage from "@/components/ui/FormMessage";
 
 export default function Login() {
   const { language } = useLanguage();
@@ -75,16 +76,15 @@ export default function Login() {
     >
       <AnimatePresence mode="wait" initial={false}>
         {submitted ? (
-          <motion.p
+          <motion.div
             key="successMessage"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="text-center text-black/80 dark:text-white/80 text-xl -mt-2"
           >
-            {t.loginSuccess}
-          </motion.p>
+            <FormMessage>{t.loginSuccess}</FormMessage>
+          </motion.div>
         ) : (
           <form
             onSubmit={(e) => {
@@ -108,9 +108,7 @@ export default function Login() {
               error={errors.password}
             />
             {errors.general && (
-              <p className="text-red-500 text-sm text-center">
-                {errors.general}
-              </p>
+              <FormMessage type="error">{errors.general}</FormMessage>
             )}
             <AnimatePresence mode="wait">
               {loading ? (

@@ -17,10 +17,9 @@ export default function Home() {
           text={t.welcome}
           onComplete={() => setShowButtons(true)}
         />
-
         {showButtons && (
           <motion.div
-            className="mt-6 flex flex-col pt-12 sm:flex-row justify-center gap-4"
+            className="mt-6 flex flex-row flex-wrap justify-center items-center gap-4 pt-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.42, 0, 0.58, 1], delay: 0.2 }}
