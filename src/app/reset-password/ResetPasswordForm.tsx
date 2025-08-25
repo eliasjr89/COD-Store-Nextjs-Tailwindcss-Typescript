@@ -42,7 +42,7 @@ export default function ResetPasswordForm() {
       if (!res.ok)
         throw new Error(data.error || "Error al actualizar la contraseña");
 
-      router.push("/auth/login");
+      router.push("/login");
     } catch (err: unknown) {
       const message =
         err instanceof Error ? err.message : "Ocurrió un error inesperado";
