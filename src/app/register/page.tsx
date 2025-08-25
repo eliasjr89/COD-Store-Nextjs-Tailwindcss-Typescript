@@ -14,6 +14,7 @@ export default function Register() {
   const { language } = useLanguage();
   const t = dictionary[language];
   const { setToken } = useAuth();
+
   const router = useRouter();
 
   const { values, handleChange, errors, loading, submitted, handleSubmit } =
@@ -39,9 +40,9 @@ export default function Register() {
 
     if (!res.ok) throw { fieldErrors: { general: data.error } };
 
-    // Guardar token y redirigir
     if (data.data?.token) {
       localStorage.setItem("token", data.data.token);
+      setToken(data.data.token);
       router.push("/dashboard");
     }
 

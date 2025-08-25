@@ -1,4 +1,3 @@
-// context/AuthContext.tsx
 "use client";
 
 import {
@@ -12,7 +11,7 @@ import {
 interface AuthContextProps {
   token: string | null;
   setToken: (token: string | null) => void;
-  loading: boolean; // 🔑 añadimos loading
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextProps>({
@@ -23,12 +22,12 @@ const AuthContext = createContext<AuthContextProps>({
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true); // 🔑 estado de carga
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     setToken(storedToken);
-    setLoading(false); // ✅ terminamos de cargar
+    setLoading(false);
   }, []);
 
   return (

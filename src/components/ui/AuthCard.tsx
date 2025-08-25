@@ -1,15 +1,7 @@
 "use client";
 
 import GlassButton from "@/components/ui/Button";
-
-interface AuthCardProps {
-  title: string;
-  children: React.ReactNode;
-  footer?: React.ReactNode;
-  showBackButton?: boolean;
-  backLabel?: string;
-  backHref?: string;
-}
+import { AuthCardProps } from "@/types";
 
 export default function AuthCard({
   title,

@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
@@ -17,7 +17,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const { language } = useLanguage();
   const t = dictionary[language];
 
-  // Redirigir si no hay token
+  useEffect(() => {
+    if (!loading && !token) {
+      router.replace("/login");
+    }
+  }, [loading, token, router]);
   if (!loading && !token) {
     router.replace("/login");
     return (

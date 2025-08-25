@@ -1,4 +1,3 @@
-// locale/dictionary.ts
 export const dictionary = {
   ES: {
     welcome: "Bienvenido a Call Of Duty",
@@ -29,8 +28,6 @@ export const dictionary = {
     close: "Cerrar",
     loginSuccess: "Has iniciado sesión correctamente",
     registerSuccess: "¡Registro completado con éxito!",
-
-    // Dashboard
     dashboardWelcome: "Bienvenido al Dashboard",
     dashboardLoadError: "No se pudo cargar el usuario",
     dashboardUsername: "Usuario",
@@ -44,8 +41,6 @@ export const dictionary = {
     dashboardVisits: "Visitas",
     dashboardRecentOrders: "Pedidos recientes",
     dashboardQuickActions: "Acciones rápidas",
-
-    // DashboardLayout extras
     goodbye: "Hasta pronto...",
     redirectingLogin: "Redirigiendo al login...",
     pleaseWait: "Por favor espera",
@@ -79,8 +74,6 @@ export const dictionary = {
     close: "Close",
     loginSuccess: "You have successfully logged in",
     registerSuccess: "Registration completed successfully!",
-
-    // Dashboard
     dashboardWelcome: "Welcome to the Dashboard",
     dashboardLoadError: "Could not load user",
     dashboardUsername: "Username",
@@ -94,8 +87,6 @@ export const dictionary = {
     dashboardVisits: "Visits",
     dashboardRecentOrders: "Recent Orders",
     dashboardQuickActions: "Quick Actions",
-
-    // DashboardLayout extras
     goodbye: "Goodbye...",
     pleaseWait: "Please wait",
   },

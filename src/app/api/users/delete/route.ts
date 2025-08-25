@@ -5,7 +5,7 @@ import { requireAuth } from "@/lib/middleware/auth";
 
 export async function DELETE(req: NextRequest) {
   try {
-    const payload = requireAuth(req); // TokenPayload seguro
+    const payload = requireAuth(req);
 
     const deletedUser = await prisma.user.delete({
       where: { id: payload.id },
@@ -16,9 +16,7 @@ export async function DELETE(req: NextRequest) {
       message: "Usuario eliminado correctamente",
       user: deletedUser,
     });
-  } catch (err: any) {
-    if (err.message === "No autorizado") return sendError(err.message, 401);
-    console.error("DELETE /api/users/delete error:", err);
+  } catch {
     return sendError("Error interno al eliminar usuario", 500);
   }
 }

@@ -1,4 +1,3 @@
-// utils/validators.ts
 export const validateEmail = (email: string) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? null : "Invalid email";
 

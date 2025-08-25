@@ -24,7 +24,6 @@ export default function DashboardPage() {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
-
         if (!res.ok || !data.data?.user) {
           localStorage.removeItem("token");
           return;
@@ -66,7 +65,6 @@ export default function DashboardPage() {
       </motion.div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Tarjeta de Usuario */}
         <motion.div
           whileHover={{ scale: 1.03 }}
           className="bg-card/30 backdrop-blur-md border border-border rounded-2xl p-6 shadow-lg transition-transform duration-300"
@@ -87,7 +85,6 @@ export default function DashboardPage() {
           <p className="text-card-foreground/80">{userData.email}</p>
         </motion.div>
 
-        {/* Settings */}
         <motion.div
           whileHover={{ scale: 1.03 }}
           className="bg-card/30 backdrop-blur-md border border-border rounded-2xl p-6 shadow-lg flex flex-col gap-4 transition-transform duration-300"

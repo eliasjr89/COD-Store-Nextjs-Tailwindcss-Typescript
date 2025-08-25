@@ -3,18 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
-
-type SpotlightProps = {
-  gradientFirst?: string;
-  gradientSecond?: string;
-  gradientThird?: string;
-  translateY?: number | string;
-  width?: number | string;
-  height?: number | string;
-  smallWidth?: number | string;
-  duration?: number;
-  xOffset?: number | string;
-};
+import { SpotlightProps } from "@/types";
 
 export const Spotlight = ({
   translateY = "-20vh",

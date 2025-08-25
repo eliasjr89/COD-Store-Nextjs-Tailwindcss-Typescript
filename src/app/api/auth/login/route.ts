@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { success, sendError } from "@/lib/response";
+import { sendError } from "@/lib/response";
 
 export async function POST(req: NextRequest) {
   try {
@@ -23,7 +23,6 @@ export async function POST(req: NextRequest) {
     );
 
     return NextResponse.json({
-      success: true,
       data: {
         user: { id: user.id, username: user.username, email: user.email },
         token,

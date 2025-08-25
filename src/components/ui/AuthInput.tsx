@@ -1,9 +1,5 @@
-import { InputHTMLAttributes } from "react";
 import clsx from "clsx";
-
-interface AuthInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  error?: string;
-}
+import { AuthInputProps } from "@/types";
 
 export default function AuthInput({
   className,

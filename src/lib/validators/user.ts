@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/prisma";
 
-// Retorna true si el username o email ya existen
 export async function isUsernameOrEmailTaken(
   username: string,
   email: string

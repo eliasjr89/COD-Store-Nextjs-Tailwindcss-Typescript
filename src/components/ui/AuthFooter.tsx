@@ -1,10 +1,6 @@
-// components/ui/AuthFooter.tsx
 import { useTranslation } from "@/hooks/useTranslations";
+import { AuthFooterProps } from "@/types";
 import Link from "next/link";
-
-interface AuthFooterProps {
-  type: "login" | "register" | "forgot";
-}
 
 export default function AuthFooter({ type }: AuthFooterProps) {
   const { t } = useTranslation();

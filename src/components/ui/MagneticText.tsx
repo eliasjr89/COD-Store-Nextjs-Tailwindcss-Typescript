@@ -1,11 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-
-interface MagneticTextProps {
-  text: string;
-  onComplete?: () => void;
-}
+import { MagneticTextProps } from "@/types";
 
 export const MagneticText: React.FC<MagneticTextProps> = ({
   text,

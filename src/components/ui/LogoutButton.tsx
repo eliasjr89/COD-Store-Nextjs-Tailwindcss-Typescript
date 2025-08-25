@@ -8,17 +8,14 @@ import { useAuth } from "@/context/AuthContext";
 
 export default function LogoutButton() {
   const [loading, setLoading] = useState(false);
-  const { token, setToken } = useAuth(); // 🔑 conectamos con contexto
+  const { token, setToken } = useAuth();
   const router = useRouter();
 
   const handleLogout = async () => {
     setLoading(true);
     try {
-      // Borrar token localmente y del contexto
       localStorage.removeItem("token");
       setToken(null);
-
-      // Redirigir al login
       router.push("/login");
     } catch (err) {
       console.error("Logout failed:", err);
@@ -27,7 +24,7 @@ export default function LogoutButton() {
     }
   };
 
-  if (!token) return null; // ❌ No renderizamos si no hay token
+  if (!token) return null;
 
   return (
     <button

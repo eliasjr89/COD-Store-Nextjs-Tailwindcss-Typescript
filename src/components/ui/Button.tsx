@@ -1,14 +1,8 @@
 "use client";
 
+import { GlassButtonProps } from "@/types";
 import clsx from "clsx";
 import Link from "next/link";
-
-interface GlassButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  label: string;
-  href?: string;
-  variant?: "primary" | "secondary" | "link";
-}
 
 export default function GlassButton({
   label,
