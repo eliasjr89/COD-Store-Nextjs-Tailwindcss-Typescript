@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { resetPassword } from "@/lib/actions/auth";
-
-interface ErrorWithMessage {
-  message: string;
-}
+import { ErrorWithMessage } from "@/types";
 
 export async function PATCH(req: NextRequest) {
   try {

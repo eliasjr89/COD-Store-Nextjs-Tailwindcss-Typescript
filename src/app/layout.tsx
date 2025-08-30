@@ -1,10 +1,12 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
-import { Providers } from "@/components/ui/Providers";
-import Navbar from "@/components/ui/Navbar";
 import { Spotlight } from "@/components/ui/Spotlight";
 import { ThemeBackground } from "@/components/ui/ThemeBackground";
 import { AuthProvider } from "@/context/AuthContext";
+import Navbar from "@/components/ui/nabvar/Navbar";
+
+import { ThemeProvider } from "next-themes";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -16,14 +18,16 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans overflow-hidden`}>
-        <AuthProvider>
-          <Providers>
-            <ThemeBackground />
-            <Navbar />
-            <Spotlight />
-            {children}
-          </Providers>
-        </AuthProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <LanguageProvider>
+            <AuthProvider>
+              <ThemeBackground />
+              <Navbar />
+              <Spotlight />
+              {children}
+            </AuthProvider>
+          </LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

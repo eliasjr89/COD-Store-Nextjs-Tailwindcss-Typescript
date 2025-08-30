@@ -1,13 +1,13 @@
 "use client";
 
-import { useAuth } from "@/context/AuthContext";
-import LanguageToggleButton from "./LanguageToggleButton";
-import ThemeToggleButton from "./ThemeToggle";
-import LogoutButton from "./LogoutButton";
 import { motion } from "framer-motion";
+import LanguageToggleButton from "../buttons/LanguageToggleButton";
+import ThemeToggleButton from "../buttons/ThemeToggle";
+import LogoutButton from "../buttons/LogoutButton";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
-  const { token } = useAuth();
+  const { loggedIn } = useAuth();
 
   return (
     <motion.nav
@@ -18,7 +18,7 @@ export default function Navbar() {
     >
       <LanguageToggleButton />
       <ThemeToggleButton />
-      {token && <LogoutButton />}
+      {loggedIn && <LogoutButton />}
     </motion.nav>
   );
 }

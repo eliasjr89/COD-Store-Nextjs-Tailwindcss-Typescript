@@ -1,3 +1,4 @@
+import { JwtPayload } from "jsonwebtoken";
 import { InputHTMLAttributes, ReactNode } from "react";
 
 export type Language = "ES" | "EN";
@@ -59,4 +60,23 @@ export interface FormMessageProps {
   children: ReactNode;
   type?: "success" | "error" | "info";
   className?: string;
+}
+
+export interface ErrorWithMessage {
+  message: string;
+}
+
+export interface AuthContextProps {
+  loggedIn: boolean;
+  setLoggedIn: (value: boolean) => void;
+  checking: boolean; // Para saber si todavía está comprobando la sesión
+}
+export interface LanguageContextProps {
+  language: Language;
+  toggleLanguage: () => void;
+  setLanguage: (lang: Language) => void;
+}
+
+export interface AuthPayload extends JwtPayload {
+  id: string;
 }

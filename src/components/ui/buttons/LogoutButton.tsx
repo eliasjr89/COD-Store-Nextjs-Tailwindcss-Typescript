@@ -8,14 +8,15 @@ import { useAuth } from "@/context/AuthContext";
 
 export default function LogoutButton() {
   const [loading, setLoading] = useState(false);
-  const { token, setToken } = useAuth();
+  const { setLoggedIn } = useAuth();
   const router = useRouter();
 
   const handleLogout = async () => {
     setLoading(true);
+    setLoggedIn(false);
     try {
-      localStorage.removeItem("token");
-      setToken(null);
+      await fetch("/api/auth/logout", { method: "POST" });
+      setLoggedIn(false);
       router.push("/login");
     } catch (err) {
       console.error("Logout failed:", err);
@@ -23,8 +24,6 @@ export default function LogoutButton() {
       setLoading(false);
     }
   };
-
-  if (!token) return null;
 
   return (
     <button

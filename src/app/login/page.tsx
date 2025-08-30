@@ -8,15 +8,15 @@ import { useForm } from "@/hooks/useForm";
 import { dictionary } from "@/locale/dictionary";
 import { useLanguage } from "@/context/LanguageContext";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
 import { AnimatePresence, motion } from "framer-motion";
 import Spinner from "@/components/ui/Spinner";
 import FormMessage from "@/components/ui/FormMessage";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Login() {
   const { language } = useLanguage();
   const t = dictionary[language];
-  const { setToken } = useAuth();
+  const { setLoggedIn } = useAuth();
   const router = useRouter();
 
   const { values, handleChange, errors, loading, submitted, handleSubmit } =
@@ -39,10 +39,8 @@ export default function Login() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Error al iniciar sesión");
 
-      localStorage.setItem("token", data.data.token);
-      setToken(data.data.token);
-
-      setTimeout(() => router.push("/dashboard"), 1000);
+      setLoggedIn(true);
+      router.push("/dashboard");
     } catch (err: unknown) {
       const message =
         err instanceof Error ? err.message : "Ocurrió un error inesperado";

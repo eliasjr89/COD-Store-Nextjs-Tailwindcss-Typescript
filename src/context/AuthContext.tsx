@@ -1,5 +1,6 @@
 "use client";
 
+import { AuthContextProps } from "@/types";
 import {
   createContext,
   useContext,
@@ -8,33 +9,35 @@ import {
   ReactNode,
 } from "react";
 
-interface AuthContextProps {
-  token: string | null;
-  setToken: (token: string | null) => void;
-  loading: boolean;
-}
-
 const AuthContext = createContext<AuthContextProps>({
-  token: null,
-  setToken: () => {},
-  loading: true,
+  loggedIn: false,
+  setLoggedIn: () => {},
+  checking: true,
 });
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setToken] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    setToken(storedToken);
-    setLoading(false);
+    const checkSession = async () => {
+      try {
+        const res = await fetch("/api/users/me");
+        setLoggedIn(res.ok);
+      } catch {
+        setLoggedIn(false);
+      } finally {
+        setChecking(false);
+      }
+    };
+    checkSession();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ token, setToken, loading }}>
+    <AuthContext.Provider value={{ loggedIn, setLoggedIn, checking }}>
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
 export const useAuth = () => useContext(AuthContext);

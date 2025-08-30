@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
-import { success } from "@/lib/response";
+import { AUTH_COOKIE_NAME, AUTH_COOKIE_OPTIONS } from "@/lib/auth/cookies";
 
 export async function POST() {
-  return NextResponse.json(success({ message: "Logout correcto" }));
+  const res = NextResponse.json({ message: "Logout correcto" });
+  res.cookies.set(AUTH_COOKIE_NAME, "", { ...AUTH_COOKIE_OPTIONS, maxAge: 0 });
+  return res;
 }

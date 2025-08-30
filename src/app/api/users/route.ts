@@ -5,7 +5,7 @@ import { requireAuth } from "@/lib/middleware/auth";
 
 export async function GET(req: NextRequest) {
   try {
-    const payload = requireAuth(req); // eslint-disable-line @typescript-eslint/no-unused-vars
+    requireAuth(req);
 
     const users = await prisma.user.findMany({
       select: { id: true, username: true, email: true },

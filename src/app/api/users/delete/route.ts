@@ -1,15 +1,21 @@
-import { NextRequest } from "next/server";
-import { deleteUser } from "@/lib/actions/auth";
-import { sendError, success } from "@/lib/response";
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { requireAuth } from "@/lib/middleware/auth";
 
 export async function DELETE(req: NextRequest) {
   try {
-    const token = req.headers.get("authorization")?.replace("Bearer ", "");
-    if (!token) return sendError("No autorizado", 401);
-
-    const data = await deleteUser(token);
-    return success(data);
+    const payload = requireAuth(req);
+    const deletedUser = await prisma.user.delete({
+      where: { id: payload.id },
+      select: { id: true, username: true, email: true },
+    });
+    const res = NextResponse.json({
+      message: "Usuario eliminado correctamente",
+      user: deletedUser,
+    });
+    res.cookies.set("auth_token", "", { maxAge: 0, path: "/" });
+    return res;
   } catch {
-    return sendError("Error interno al eliminar usuario", 500);
+    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
 }

@@ -1,21 +1,21 @@
-import { type NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { success, sendError } from "@/lib/response";
 import { requireAuth } from "@/lib/middleware/auth";
 
 export async function GET(req: NextRequest) {
   try {
-    const payload = requireAuth(req);
-
+    const payload = requireAuth(req) as { id: string };
     const user = await prisma.user.findUnique({
       where: { id: payload.id },
       select: { id: true, username: true, email: true },
     });
-
-    if (!user) return sendError("Usuario no encontrado", 404);
-
-    return success({ user });
+    if (!user)
+      return NextResponse.json(
+        { error: "Usuario no encontrado" },
+        { status: 404 }
+      );
+    return NextResponse.json({ data: user });
   } catch {
-    return sendError("Error al obtener usuario", 500);
+    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
 }

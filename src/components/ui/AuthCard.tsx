@@ -1,17 +1,9 @@
 "use client";
 
-import { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-
-interface AuthCardProps {
-  title?: string;
-  children: ReactNode;
-  footer?: ReactNode;
-  showBackButton?: boolean;
-  backLabel?: string;
-}
+import { AuthCardProps } from "@/types";
 
 export default function AuthCard({
   title,
